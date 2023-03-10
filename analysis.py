@@ -4,11 +4,15 @@ Post to HTTP Route
 
 This analysis simple post to an HTTP route. It's a starting example for you to develop more
 complex algorithms.
+Follow the link of documentation https://api.docs.tago.io/
 In this example we get the Account name and print to the console.
 """
 import urllib.request
 
 from tagoio_sdk import Analysis
+
+
+URL_TAGOIO = "https://api.tago.io/info"
 
 
 def my_analysis(context, scope: list = None) -> dict:
@@ -19,17 +23,9 @@ def my_analysis(context, scope: list = None) -> dict:
     if not account_token:
         raise ValueError("Missing 'account_token' in the environment variables")
 
-    url = "https://api.tago.io/info"
-    headers = {
-        "Authorization": account_token["value"],
-    }
-    # How to use HTTP QueryString
-    # url += "?serie=123"
-    #
-    # How to send a HTTP Body:
-    # data = b'My text body'
+    headers = {"Authorization": account_token["value"]}
 
-    req = urllib.request.Request(url, headers=headers, method="GET")
+    req = urllib.request.Request(URL_TAGOIO, headers=headers, method="GET")
 
     try:
         with urllib.request.urlopen(req) as response:
